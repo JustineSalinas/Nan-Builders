@@ -38,18 +38,6 @@ signage.
 
 **Integrity** — We build with honesty and professionalism.
 
-## Company registration
-
-| | |
-| --- | --- |
-| Registered name | Nan Builders & Construction Supply |
-| Registration No. | 2RC0001174040 |
-| DTI No. | 3956473 |
-| Principal office | Maasin, Iloilo, Philippines |
-
-Copies of our registration and DTI certificates are available on request for tendering and
-permit requirements.
-
 ## Contact
 
 **Address** — Delgado St., Maasin, Iloilo, Philippines
