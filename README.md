@@ -1,79 +1,67 @@
-# Nan Builders & Construction Supply — Website
+# Nan Builders & Construction Supply
 
-Marketing site for **Nan Builders & Construction Supply** (Maasin, Iloilo): design-and-build
-construction, construction material supply, hauling, and large-format printing.
+A construction and supply firm based on Delgado St., Maasin, Iloilo, Philippines.
 
-Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, **shadcn/ui**
-(Base UI), **motion**, and **Resend** for the contact forms.
+Nan Builders brings design, construction, materials, and printing together under one
+locally rooted team. Homeowners, contractors, and businesses across Iloilo work with us
+when they would rather deal with a single accountable partner for the whole job —
+drawing the plan, securing the permit, supplying the materials, and building the
+structure — instead of coordinating four separate ones.
 
-## Getting started
+> **From plans to completion, we build your vision.**
+> We Supply. We Build. We Deliver.
 
-```bash
-npm install
-cp .env.example .env.local   # fill in RESEND_API_KEY to enable email (optional)
-npm run dev                  # http://localhost:3000
-```
+## What we do
 
-Other scripts:
+**Design & Build** — End-to-end building construction, from groundbreaking to turnover.
+Structural works, finishes, and site management handled by one team. Also building design
+consultation, interior design and construction, and maintenance and repairs.
 
-```bash
-npm run build   # production build
-npm run start   # serve the production build
-npm run lint    # eslint
-```
+**Construction Supply** — Cement, steel, pipes, and everyday construction materials;
+hollowblocks (CHB) in bulk; and soil, sand, and gravel supplied by volume and delivered to
+site.
 
-## Project structure
+**Hauling & Delivery** — Dump trucks for construction materials, debris disposal, and
+lipat-bahay moves.
 
-```
-app/
-  layout.tsx            Root layout: fonts, header/footer, SEO metadata, JSON-LD
-  page.tsx              Home
-  about | services | projects | supply | printing | insights | careers | contact
-  api/contact/route.ts  Form handler (Resend email + graceful fallback)
-  sitemap.ts, robots.ts SEO
-components/
-  layout/               site-header, site-footer
-  sections/             home-hero, service-grid, cta-band
-  brand/logo.tsx        SVG monogram (placeholder — swap for official assets)
-  ui/                   shadcn/ui primitives + ButtonLink
-  contact-form.tsx, careers-form.tsx, page-hero, section-heading, reveal, empty-state
-lib/
-  site.ts               Business info, contact details, nav, values  ← edit here
-  services.ts           The 10 services
-  pricing.ts            Printing price list + supply catalog
-  validation.ts         Zod schemas for the forms
-```
+**Permits & Documentation** — Building permit process packages, plus sign and seal of
+construction plans by licensed professionals, ready for submission.
 
-**Most content edits live in `lib/`** — change contact details in `lib/site.ts`,
-services in `lib/services.ts`, printing rates in `lib/pricing.ts`.
+**Large-Format Printing** — Blueprints and construction plans up to A0, tarpaulins, and
+signage.
 
-## Contact forms
+## Our values
 
-The Contact and Careers forms POST to `/api/contact`, which emails
-`renan.nanbuilders@gmail.com` via Resend.
+**Quality** — We deliver high-quality work and materials, every project.
 
-- **With `RESEND_API_KEY` set:** submissions are emailed (reply-to = the sender).
-- **Without it:** the form still validates and shows a friendly message directing
-  users to call/email directly. Nothing breaks.
+**Reliability** — Dependable, on-time service you can count on.
 
-To enable email: create a Resend account, add `RESEND_API_KEY` and `CONTACT_FROM`
-to `.env.local` (and to your host's env vars). For production, verify your domain
-in Resend so mail sends from `@nanbuilders.com`.
+**Integrity** — We build with honesty and professionalism.
 
-## TODO / owner to provide
+## Company registration
 
-Search the codebase for `TODO:` to find content slots awaiting real assets:
+| | |
+| --- | --- |
+| Registered name | Nan Builders & Construction Supply |
+| Registration No. | 2RC0001174040 |
+| DTI No. | 3956473 |
+| Principal office | Maasin, Iloilo, Philippines |
 
-- Official logo vector (replace `components/brand/logo.tsx`) and update the favicon.
-- Real project photos + case studies (`app/projects/page.tsx`).
-- Blog posts / client reviews (`app/insights/page.tsx`).
-- Google Map embed on the Contact page.
-- Facebook/social links and confirmed business hours in `lib/site.ts`.
-- Set the live domain (`site.url` in `lib/site.ts`).
+Copies of our registration and DTI certificates are available on request for tendering and
+permit requirements.
 
-## Deploy (Vercel)
+## Contact
 
-1. Push this repo to GitHub.
-2. Import it at [vercel.com/new](https://vercel.com/new) — Next.js is auto-detected.
-3. Add env vars `RESEND_API_KEY` and `CONTACT_FROM` in Project Settings → Environment Variables.
-4. Deploy. Add your custom domain and update `site.url` in `lib/site.ts`.
+**Address** — Delgado St., Maasin, Iloilo, Philippines
+**Phone / WhatsApp** — 0967 066 8200
+**Email** — renan.nanbuilders@gmail.com
+
+| Day | Hours |
+| --- | --- |
+| Monday – Friday | 8:00 AM – 6:00 PM |
+| Saturday | 8:00 AM – 5:00 PM |
+| Sunday | By appointment |
+
+---
+
+This repository holds the source for the Nan Builders website.
