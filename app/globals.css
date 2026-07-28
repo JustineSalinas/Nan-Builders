@@ -1,26 +1,191 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+
+  /* Brand palette — logo blue anchor, deep navy surfaces, champagne accent */
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-navy-800: var(--brand-navy-800);
+  --color-brand-navy-900: var(--brand-navy-900);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-700: var(--brand-blue-700);
+  --color-brand-blue-500: var(--brand-blue-500);
+  --color-brand-blue-100: var(--brand-blue-100);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-600: var(--brand-gold-600);
+  --color-brand-gold-200: var(--brand-gold-200);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-ivory: var(--brand-ivory);
+  --color-brand-stone: var(--brand-stone);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /*
+   * Brand — built from the logo's exact blue (#002CB9, hue 226°).
+   * The blue is the signature: reserved for CTAs, links, focus and rules.
+   * Large surfaces use the same hue driven down to a near-black navy, which
+   * keeps the palette monochromatic and lets a restrained champagne hairline
+   * do the "luxury" work without competing with the blue.
+   */
+  --brand-blue: #002cb9; /* exact logo blue */
+  --brand-blue-700: #0022a0; /* pressed */
+  --brand-blue-500: #1a45d6; /* hover / lift */
+  --brand-blue-100: #e9edfb; /* tint surface */
+
+  --brand-navy: #071440;
+  --brand-navy-800: #050f2e;
+  --brand-navy-900: #040a20;
+
+  --brand-gold: #c3a76b; /* champagne — hairlines, eyebrows, dark-band CTAs */
+  --brand-gold-600: #8a6f39; /* darkened to clear 4.5:1 on the ivory canvas */
+  --brand-gold-200: #e7dab9;
+
+  --brand-ink: #14161d;
+  --brand-ivory: #faf9f5;
+  --brand-stone: #f0ede5;
+
+  --background: #faf9f5;
+  --foreground: #14161d;
+  --card: #ffffff;
+  --card-foreground: #14161d;
+  --popover: #ffffff;
+  --popover-foreground: #14161d;
+  --primary: #002cb9;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ede5;
+  --secondary-foreground: #071440;
+  --muted: #f0ede5;
+  --muted-foreground: #67614f;
+  --accent: #e9edfb;
+  --accent-foreground: #071440;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e5e0d4;
+  --input: #d8d1c2;
+  --ring: #002cb9;
+  --chart-1: #002cb9;
+  --chart-2: #071440;
+  --chart-3: #c3a76b;
+  --chart-4: #67614f;
+  --chart-5: #a9a091;
+  --radius: 0.5rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #14161d;
+  --sidebar-primary: #002cb9;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e9edfb;
+  --sidebar-accent-foreground: #071440;
+  --sidebar-border: #e5e0d4;
+  --sidebar-ring: #002cb9;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--brand-gold-200);
+    color: var(--brand-navy-900);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Small, wide-tracked label above headings — reads premium */
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-brand-gold-600;
+  }
+  .eyebrow-on-dark {
+    @apply text-brand-gold-200;
+  }
+  /* Thin brass rule */
+  .accent-rule {
+    @apply block h-px w-16 bg-brand-gold/70;
+  }
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  /* Animated underline that grows from the left on hover */
+  .link-underline {
+    @apply relative;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@utility hover-lift {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

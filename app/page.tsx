@@ -1,65 +1,176 @@
-import Image from "next/image";
+import Link from "next/link";
+import {
+  CheckCircle2,
+  Hammer,
+  Printer,
+  Truck,
+  ArrowRight,
+  Quote,
+} from "lucide-react";
+import { HomeHero } from "@/components/sections/home-hero";
+import { ServiceGrid } from "@/components/sections/service-grid";
+import { SectionHeading } from "@/components/section-heading";
+import { CtaBand } from "@/components/sections/cta-band";
+import { Reveal } from "@/components/reveal";
+import { ButtonLink } from "@/components/ui/button-link";
+import { values, traits, site } from "@/lib/site";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <HomeHero />
+
+      {/* Value strip */}
+      <section className="border-b border-border bg-white">
+        <div className="container-x grid gap-6 py-10 sm:grid-cols-3">
+          {values.map((v, i) => (
+            <Reveal key={v.title} delay={i * 0.08} className="flex items-start gap-3">
+              <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-brand-gold" />
+              <div>
+                <h3 className="font-heading text-lg font-medium text-brand-navy">
+                  {v.title}
+                </h3>
+                <p className="text-sm text-muted-foreground">{v.body}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Services */}
+      <section className="bg-brand-stone py-20">
+        <div className="container-x">
+          <SectionHeading
+            eyebrow="Our Services"
+            title="Complete solutions for your construction needs"
+            description="Design, build, supply, and printing — Nan Builders brings every part of your project together so nothing falls through the cracks."
+          />
+          <div className="mt-12">
+            <ServiceGrid />
+          </div>
+          <div className="mt-10">
+            <ButtonLink href="/services" tone="outlineNavy">
+              See all services <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Why choose us */}
+      <section className="bg-brand-navy py-20 text-white">
+        <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <SectionHeading
+            eyebrow="Why Nan Builders"
+            title="A team you can build on"
+            description="We combine skilled people, dependable supply, and honest project management — so your build stays on time, on budget, and on standard."
+            onDark
+          />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {traits.map((t, i) => (
+              <Reveal key={t.title} delay={i * 0.06}>
+                <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6">
+                  <h3 className="font-heading text-xl font-medium text-brand-gold-200">
+                    {t.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                    {t.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Cross-promo: Build / Supply / Print */}
+      <section className="bg-white py-20">
+        <div className="container-x">
+          <SectionHeading
+            eyebrow="Three ways we help"
+            title="We build. We supply. We print."
+            align="center"
+          />
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                icon: Hammer,
+                title: "Construction",
+                body: "Full design-and-build, renovations, permits, and professional sign & seal.",
+                href: "/services",
+                cta: "Explore services",
+              },
+              {
+                icon: Truck,
+                title: "Construction Supply",
+                body: "Cement, sand, gravel, hollowblocks, steel, and hauling — delivered to site.",
+                href: "/supply",
+                cta: "View supply",
+              },
+              {
+                icon: Printer,
+                title: "Printing Services",
+                body: "A0 CAD plots, blueprint copies, scanning, PDF conversion, and lamination.",
+                href: "/printing",
+                cta: "See price list",
+              },
+            ].map((c, i) => {
+              const Icon = c.icon;
+              return (
+                <Reveal key={c.title} delay={i * 0.08}>
+                  <div className="flex h-full flex-col rounded-2xl border border-border bg-brand-stone p-8">
+                    <span className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-brand-gold text-brand-navy-900">
+                      <Icon className="h-7 w-7" />
+                    </span>
+                    <h3 className="mt-5 font-heading text-xl font-medium text-brand-navy">
+                      {c.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                      {c.body}
+                    </p>
+                    <Link
+                      href={c.href}
+                      className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-blue hover:text-brand-navy"
+                    >
+                      {c.cta} <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial placeholder */}
+      <section className="bg-brand-stone py-20">
+        <div className="container-x">
+          <SectionHeading
+            eyebrow="Client Voices"
+            title="Trusted by homeowners and builders"
+            align="center"
+          />
+          <Reveal className="mx-auto mt-10 max-w-3xl">
+            <figure className="rounded-2xl border border-dashed border-border bg-white p-10 text-center">
+              <Quote className="mx-auto h-8 w-8 text-brand-gold" />
+              {/* TODO: replace with real client testimonials */}
+              <blockquote className="mt-4 text-lg font-medium text-foreground">
+                Client reviews will appear here soon. Have you worked with us?
+                We&apos;d love to feature your story.
+              </blockquote>
+              <figcaption className="mt-4 text-sm text-muted-foreground">
+                <a
+                  href={`mailto:${site.email}?subject=My Nan Builders review`}
+                  className="font-semibold text-brand-blue underline-offset-4 hover:underline"
+                >
+                  Share your experience
+                </a>
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </section>
+
+      <CtaBand />
+    </>
   );
 }

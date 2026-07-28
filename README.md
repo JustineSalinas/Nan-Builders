@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nan Builders & Construction Supply — Website
 
-## Getting Started
+Marketing site for **Nan Builders & Construction Supply** (Maasin, Iloilo): design-and-build
+construction, construction material supply, hauling, and large-format printing.
 
-First, run the development server:
+Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, **shadcn/ui**
+(Base UI), **motion**, and **Resend** for the contact forms.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # fill in RESEND_API_KEY to enable email (optional)
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Other scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run start   # serve the production build
+npm run lint    # eslint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+```
+app/
+  layout.tsx            Root layout: fonts, header/footer, SEO metadata, JSON-LD
+  page.tsx              Home
+  about | services | projects | supply | printing | insights | careers | contact
+  api/contact/route.ts  Form handler (Resend email + graceful fallback)
+  sitemap.ts, robots.ts SEO
+components/
+  layout/               site-header, site-footer
+  sections/             home-hero, service-grid, cta-band
+  brand/logo.tsx        SVG monogram (placeholder — swap for official assets)
+  ui/                   shadcn/ui primitives + ButtonLink
+  contact-form.tsx, careers-form.tsx, page-hero, section-heading, reveal, empty-state
+lib/
+  site.ts               Business info, contact details, nav, values  ← edit here
+  services.ts           The 10 services
+  pricing.ts            Printing price list + supply catalog
+  validation.ts         Zod schemas for the forms
+```
 
-To learn more about Next.js, take a look at the following resources:
+**Most content edits live in `lib/`** — change contact details in `lib/site.ts`,
+services in `lib/services.ts`, printing rates in `lib/pricing.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact forms
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The Contact and Careers forms POST to `/api/contact`, which emails
+`renan.nanbuilders@gmail.com` via Resend.
 
-## Deploy on Vercel
+- **With `RESEND_API_KEY` set:** submissions are emailed (reply-to = the sender).
+- **Without it:** the form still validates and shows a friendly message directing
+  users to call/email directly. Nothing breaks.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To enable email: create a Resend account, add `RESEND_API_KEY` and `CONTACT_FROM`
+to `.env.local` (and to your host's env vars). For production, verify your domain
+in Resend so mail sends from `@nanbuilders.com`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## TODO / owner to provide
+
+Search the codebase for `TODO:` to find content slots awaiting real assets:
+
+- Official logo vector (replace `components/brand/logo.tsx`) and update the favicon.
+- Real project photos + case studies (`app/projects/page.tsx`).
+- Blog posts / client reviews (`app/insights/page.tsx`).
+- Google Map embed on the Contact page.
+- Facebook/social links and confirmed business hours in `lib/site.ts`.
+- Set the live domain (`site.url` in `lib/site.ts`).
+
+## Deploy (Vercel)
+
+1. Push this repo to GitHub.
+2. Import it at [vercel.com/new](https://vercel.com/new) — Next.js is auto-detected.
+3. Add env vars `RESEND_API_KEY` and `CONTACT_FROM` in Project Settings → Environment Variables.
+4. Deploy. Add your custom domain and update `site.url` in `lib/site.ts`.
