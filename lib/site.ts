@@ -48,14 +48,22 @@ export const site = {
   },
 } as const;
 
-/** Every page, in order. Used by the footer and the mobile menu. */
+/**
+ * Every page, in order. Used by the footer and the mobile menu, and it's the
+ * order the header nav inherits.
+ *
+ * Ordered by what a visitor needs, not by what we want to say: what we do, then
+ * proof we've done it, then the supply and printing lines, and only then who we
+ * are. About is a trust page people reach for once they're already interested —
+ * it earns its keep late, not in the second slot.
+ */
 export const allNav = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Projects", href: "/projects" },
   { label: "Supply", href: "/supply" },
   { label: "Printing", href: "/printing" },
+  { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
   { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
@@ -66,7 +74,7 @@ export const allNav = [
  * Printing, Insights and Careers are reachable from the footer, the mobile
  * menu, and (for Printing) the Services page.
  */
-const headerNavHrefs = ["/", "/about", "/services", "/projects", "/supply", "/contact"];
+const headerNavHrefs = ["/", "/services", "/projects", "/supply", "/about", "/contact"];
 export const mainNav = allNav.filter((item) => headerNavHrefs.includes(item.href));
 
 export const values = [

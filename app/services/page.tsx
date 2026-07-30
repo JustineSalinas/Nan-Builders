@@ -26,6 +26,17 @@ const groupCopy: Record<(typeof groups)[number], string> = {
   Supply: "Materials and hauling delivered to your site.",
 };
 
+/**
+ * Supply is also its own top-level page, so the group points there rather than
+ * dead-ending at the contact form — otherwise a visitor meets the same business
+ * line twice with no signal which page is authoritative.
+ */
+const groupLink: Partial<
+  Record<(typeof groups)[number], { href: string; label: string }>
+> = {
+  Supply: { href: "/supply", label: "Browse materials & pricing" },
+};
+
 export default function ServicesPage() {
   return (
     <>
@@ -40,6 +51,7 @@ export default function ServicesPage() {
         <div className="container-x space-y-14 sm:space-y-16">
           {groups.map((group) => {
             const items = services.filter((s) => s.category === group);
+            const link = groupLink[group];
             return (
               <div key={group}>
                 {/* Group label and its promise sit on one line, separated by a
@@ -49,9 +61,20 @@ export default function ServicesPage() {
                   <h2 className="font-heading text-2xl font-medium text-brand-navy">
                     {group}
                   </h2>
-                  <p className="text-sm text-muted-foreground sm:text-right">
-                    {groupCopy[group]}
-                  </p>
+                  <div className="sm:text-right">
+                    <p className="text-sm text-muted-foreground">
+                      {groupCopy[group]}
+                    </p>
+                    {link && (
+                      <Link
+                        href={link.href}
+                        className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-brand-blue hover:underline"
+                      >
+                        {link.label}
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
 
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
