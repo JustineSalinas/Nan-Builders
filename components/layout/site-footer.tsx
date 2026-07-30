@@ -83,7 +83,7 @@ export function SiteFooter() {
                   href={`/services#${s.slug}`}
                   className="text-slate-400 hover:text-white"
                 >
-                  {s.title.split(" — ")[0].split(" (")[0]}
+                  {s.title}
                 </Link>
               </li>
             ))}
@@ -142,14 +142,9 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-x flex flex-col items-center justify-between gap-3 py-6 text-xs text-slate-400 sm:flex-row">
+        <div className="container-x py-6 text-center text-xs text-slate-400">
           <p>
             © {year} {site.legalName}. All rights reserved.
-          </p>
-          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span>Registration No. {site.registrationNo}</span>
-            <span aria-hidden className="hidden sm:inline">•</span>
-            <span>DTI No. {site.dtiNo}</span>
           </p>
         </div>
       </div>
