@@ -25,7 +25,7 @@ export function CtaBand({
           <p className="mt-4 max-w-lg text-slate-300">{subtitle}</p>
         </Reveal>
         <Reveal delay={0.1} className="flex flex-shrink-0 flex-col gap-3 sm:flex-row">
-          <ButtonLink href="/contact" size="lg">
+          <ButtonLink href="/contact" tone="ivory" size="lg">
             Get a Free Quote
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </ButtonLink>

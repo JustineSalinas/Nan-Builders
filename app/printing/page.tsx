@@ -33,7 +33,7 @@ export default function PrintingPage() {
             const Icon = pillarIcons[i];
             return (
               <Reveal key={p.title} delay={i * 0.08} className="flex items-start gap-3">
-                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-gold text-brand-navy-900">
+                <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-navy text-white">
                   <Icon className="h-5 w-5" />
                 </span>
                 <div>

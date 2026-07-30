@@ -68,7 +68,7 @@ export function HomeHero() {
           </p>
 
           <div className="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
-            <ButtonLink href="/contact" size="lg" className="w-full sm:w-auto">
+            <ButtonLink href="/contact" tone="ivory" size="lg" className="w-full sm:w-auto">
               Get a Free Quote
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </ButtonLink>

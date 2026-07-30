@@ -49,7 +49,11 @@ export default function ServicesPage() {
                   const Icon = s.icon;
                   return (
                     <Reveal key={s.slug} delay={(i % 2) * 0.06}>
-                      <div className="flex h-full gap-5 rounded-xl border border-border bg-white p-6">
+                      {/* Anchor target for the footer's per-service links. */}
+                      <div
+                        id={s.slug}
+                        className="flex h-full scroll-mt-28 gap-5 rounded-xl border border-border bg-white p-6"
+                      >
                         <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-navy text-white">
                           <Icon className="h-6 w-6" />
                         </span>

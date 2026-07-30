@@ -81,15 +81,22 @@
   --brand-navy-800: #050f2e;
   --brand-navy-900: #040a20;
 
-  --brand-gold: #c3a76b; /* champagne — hairlines, eyebrows, dark-band CTAs */
-  --brand-gold-600: #8a6f39; /* darkened to clear 4.5:1 on the ivory canvas */
+  /*
+   * Champagne is a hairline accent only — thin rules, small marks, selection.
+   * It is deliberately NOT used for solid fills or body/eyebrow text: at button
+   * or label size this hue reads as muddy brown rather than metallic.
+   */
+  --brand-gold: #c3a76b;
+  --brand-gold-600: #8a6f39;
   --brand-gold-200: #e7dab9;
 
   --brand-ink: #14161d;
-  --brand-ivory: #faf9f5;
-  --brand-stone: #f0ede5;
+  /* Neutrals sit just off true grey. Earlier values carried a beige cast that
+   * made large empty sections read brown. */
+  --brand-ivory: #faf9f7;
+  --brand-stone: #f0f0ee;
 
-  --background: #faf9f5;
+  --background: #faf9f7;
   --foreground: #14161d;
   --card: #ffffff;
   --card-foreground: #14161d;
@@ -97,21 +104,21 @@
   --popover-foreground: #14161d;
   --primary: #002cb9;
   --primary-foreground: #ffffff;
-  --secondary: #f0ede5;
+  --secondary: #f0f0ee;
   --secondary-foreground: #071440;
-  --muted: #f0ede5;
-  --muted-foreground: #67614f;
+  --muted: #f0f0ee;
+  --muted-foreground: #5f6068;
   --accent: #e9edfb;
   --accent-foreground: #071440;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #e5e0d4;
-  --input: #d8d1c2;
+  --border: #e4e4e0;
+  --input: #d6d6d1;
   --ring: #002cb9;
   --chart-1: #002cb9;
   --chart-2: #071440;
   --chart-3: #c3a76b;
-  --chart-4: #67614f;
-  --chart-5: #a9a091;
+  --chart-4: #5f6068;
+  --chart-5: #a3a4ab;
   --radius: 0.5rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #14161d;
@@ -119,7 +126,7 @@
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e9edfb;
   --sidebar-accent-foreground: #071440;
-  --sidebar-border: #e5e0d4;
+  --sidebar-border: #e4e4e0;
   --sidebar-ring: #002cb9;
 }
 
@@ -148,8 +155,10 @@
 @layer components {
   /* Small, wide-tracked label above headings — reads premium */
   .eyebrow {
-    @apply inline-flex items-center gap-2.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-brand-gold-600;
+    @apply inline-flex items-center gap-2.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-brand-blue;
   }
+  /* On navy the pale champagne reads as gold rather than brown, so the accent
+   * survives on dark bands only. */
   .eyebrow-on-dark {
     @apply text-brand-gold-200;
   }

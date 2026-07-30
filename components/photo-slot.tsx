@@ -16,6 +16,9 @@ export function PhotoSlot({
   className,
   ratio = "aspect-[4/3]",
   priority = false,
+  blurDataURL,
+  fit = "cover",
+  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
 }: {
   src?: string;
   alt: string;
@@ -24,6 +27,11 @@ export function PhotoSlot({
   className?: string;
   ratio?: string;
   priority?: boolean;
+  /** Tiny inline preview so photos fade in instead of popping. */
+  blurDataURL?: string;
+  /** `contain` for drawings and models, which must not be cropped. */
+  fit?: "cover" | "contain";
+  sizes?: string;
 }) {
   return (
     <div
@@ -39,8 +47,9 @@ export function PhotoSlot({
           alt={alt}
           fill
           priority={priority}
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
+          sizes={sizes}
+          {...(blurDataURL ? { placeholder: "blur" as const, blurDataURL } : {})}
+          className={fit === "contain" ? "object-contain" : "object-cover"}
         />
       ) : (
         <>

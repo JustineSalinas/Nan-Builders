@@ -79,11 +79,22 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2 text-sm">
             {services.slice(0, 6).map((s) => (
               <li key={s.slug}>
-                <Link href="/services" className="text-slate-400 hover:text-white">
+                <Link
+                  href={`/services#${s.slug}`}
+                  className="text-slate-400 hover:text-white"
+                >
                   {s.title.split(" — ")[0].split(" (")[0]}
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/services"
+                className="font-medium text-brand-gold-200 hover:text-white"
+              >
+                All services →
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -115,6 +126,18 @@ export function SiteFooter() {
               </a>
             </li>
           </ul>
+
+          <h3 className="mt-8 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
+            Opening Hours
+          </h3>
+          <dl className="mt-4 space-y-1.5 text-sm">
+            {site.hours.map((h) => (
+              <div key={h.day} className="flex justify-between gap-4">
+                <dt className="text-slate-400">{h.day}</dt>
+                <dd className="whitespace-nowrap text-slate-300">{h.time}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
 

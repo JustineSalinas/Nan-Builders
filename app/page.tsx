@@ -13,6 +13,8 @@ import { SectionHeading } from "@/components/section-heading";
 import { CtaBand } from "@/components/sections/cta-band";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button-link";
+import { PhotoSlot } from "@/components/photo-slot";
+import { featuredProjects, imageFor } from "@/lib/projects";
 import { values, traits, site } from "@/lib/site";
 
 export default function HomePage() {
@@ -25,7 +27,7 @@ export default function HomePage() {
         <div className="container-x grid gap-6 py-10 sm:grid-cols-3">
           {values.map((v, i) => (
             <Reveal key={v.title} delay={i * 0.08} className="flex items-start gap-3">
-              <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-brand-gold" />
+              <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-brand-blue" />
               <div>
                 <h3 className="font-heading text-lg font-medium text-brand-navy">
                   {v.title}
@@ -51,6 +53,50 @@ export default function HomePage() {
           <div className="mt-10">
             <ButtonLink href="/services" tone="outlineNavy">
               See all services <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+          </div>
+        </div>
+      </section>
+
+      {/* Selected work */}
+      <section className="bg-white py-20">
+        <div className="container-x">
+          <SectionHeading
+            eyebrow="Selected Work"
+            title="Seeing it before we build it"
+            description="Every project begins as a perspective. Here's a look at recent design and visualization work."
+          />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredProjects.map((p, i) => {
+              const img = imageFor(p);
+              return (
+                <Reveal key={p.image} delay={i * 0.08}>
+                  <Link
+                    href="/projects"
+                    className="group block overflow-hidden rounded-2xl border border-border bg-white transition-colors hover:border-brand-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+                  >
+                    <PhotoSlot
+                      src={img.src}
+                      blurDataURL={img.blurDataURL}
+                      alt={`${p.discipline} — ${p.title}, ${p.location}`}
+                      ratio="aspect-[4/3]"
+                    />
+                    <div className="p-5">
+                      <h3 className="font-heading text-lg font-medium text-brand-navy">
+                        {p.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {p.location}
+                      </p>
+                    </div>
+                  </Link>
+                </Reveal>
+              );
+            })}
+          </div>
+          <div className="mt-10">
+            <ButtonLink href="/projects" tone="outlineNavy">
+              View the portfolio <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           </div>
         </div>
@@ -118,7 +164,7 @@ export default function HomePage() {
               return (
                 <Reveal key={c.title} delay={i * 0.08}>
                   <div className="flex h-full flex-col rounded-2xl border border-border bg-brand-stone p-8">
-                    <span className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-brand-gold text-brand-navy-900">
+                    <span className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-brand-navy text-white">
                       <Icon className="h-7 w-7" />
                     </span>
                     <h3 className="mt-5 font-heading text-xl font-medium text-brand-navy">
@@ -151,7 +197,7 @@ export default function HomePage() {
           />
           <Reveal className="mx-auto mt-10 max-w-3xl">
             <figure className="rounded-2xl border border-dashed border-border bg-white p-10 text-center">
-              <Quote className="mx-auto h-8 w-8 text-brand-gold" />
+              <Quote className="mx-auto h-8 w-8 text-brand-blue" />
               {/* TODO: replace with real client testimonials */}
               <blockquote className="mt-4 text-lg font-medium text-foreground">
                 Client reviews will appear here soon. Have you worked with us?

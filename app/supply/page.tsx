@@ -94,7 +94,7 @@ export default function SupplyPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-                <ButtonLink href="/contact?service=Hauling" tone="gold">
+                <ButtonLink href="/contact?service=Hauling" tone="ivory">
                   Request hauling
                 </ButtonLink>
                 <ButtonLink href="/contact?service=Construction%20Supply" tone="outlineWhite">

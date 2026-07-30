@@ -2,13 +2,18 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Tone = "blue" | "gold" | "navy" | "outlineNavy" | "outlineWhite";
+type Tone = "blue" | "ivory" | "gold" | "navy" | "outlineNavy" | "outlineWhite";
 type Size = "md" | "lg";
 
 const tones: Record<Tone, string> = {
   // Signature CTA on light canvas — the exact logo blue.
   blue: "bg-brand-blue text-white hover:bg-brand-blue-500 shadow-sm shadow-brand-blue/25",
-  // Champagne reads better than blue on the deep navy bands.
+  // Primary CTA on the deep navy bands. The logo blue is too close to the navy
+  // to carry a solid fill there, so the crisp light panel does the work.
+  ivory:
+    "bg-brand-ivory text-brand-navy-900 hover:bg-white shadow-sm shadow-black/20",
+  // Champagne. Kept for the odd accent CTA — at this size it leans brown, so
+  // prefer `ivory` on dark bands and `blue` on light ones.
   gold: "bg-brand-gold text-brand-navy-900 hover:bg-brand-gold-600 shadow-sm shadow-brand-gold/20",
   navy: "bg-brand-navy text-white hover:bg-brand-navy-800",
   outlineNavy:
@@ -28,7 +33,7 @@ const base =
 /** A Next.js Link (or plain anchor) styled as a premium brand button. */
 export function ButtonLink({
   href,
-  tone = "gold",
+  tone = "blue",
   size = "md",
   external = false,
   className,
