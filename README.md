@@ -8,6 +8,10 @@ when they would rather deal with a single accountable partner for the whole job 
 drawing the plan, securing the permit, supplying the materials, and building the
 structure — instead of coordinating four separate ones.
 
+Construction, supply, hauling and printing are served from Maasin. The design side
+travels: perspectives, 3D visualization, BIM coordination and shop drawings have been
+delivered for projects in Negros, Saudi Arabia, and on the Mahanakhon tower in Bangkok.
+
 > **From plans to completion, we build your vision.**
 > We Supply. We Build. We Deliver.
 

@@ -24,7 +24,10 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.legalName} | Design-Build, Supply & Printing in Iloilo`,
+    // Deliberately still anchored to Iloilo. The wider design reach is carried
+    // by the description, keywords and JSON-LD; the title tag is spent on the
+    // highest-intent local query, which is where the leads actually come from.
+    default: `${site.legalName} | Design-Build & Supply, Iloilo`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
@@ -35,6 +38,11 @@ export const metadata: Metadata = {
     "hollowblocks CHB",
     "blueprint printing Iloilo",
     "building permit processing",
+    // The design arm sells past the province, so it needs non-local terms.
+    "architectural visualization Philippines",
+    "3D rendering Philippines",
+    "BIM modelling services",
+    "shop drawings outsourcing",
     "Nan Builders",
   ],
   alternates: { canonical: "/" },
@@ -77,7 +85,14 @@ const jsonLd = {
     { "@type": "PropertyValue", name: "Registration No.", value: site.registrationNo },
     { "@type": "PropertyValue", name: "DTI No.", value: site.dtiNo },
   ],
-  areaServed: "Iloilo, Philippines",
+  // Construction, supply and hauling are bounded by the province; the design,
+  // visualization and BIM scopes are not, and have shipped to Thailand and
+  // Saudi Arabia. Claiming a single area understated half the business.
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Iloilo, Philippines" },
+    { "@type": "Country", name: "Philippines" },
+    { "@type": "Place", name: "Worldwide (design, visualization and BIM services)" },
+  ],
   slogan: site.tagline,
 };
 

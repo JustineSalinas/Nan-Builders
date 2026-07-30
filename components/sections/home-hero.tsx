@@ -53,7 +53,7 @@ export function HomeHero() {
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <span className="inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.03] px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-gold-200">
             <ShieldCheck className="h-3.5 w-3.5 shrink-0" />
-            Licensed · DTI-Accredited · Serving {site.address.province}
+            Licensed · DTI-Accredited · {site.address.province} & overseas
           </span>
 
           <h1 className="mt-8 text-balance text-5xl font-medium leading-[1.04] tracking-[-0.02em] sm:text-6xl lg:text-[4.25rem]">
@@ -64,7 +64,8 @@ export function HomeHero() {
           <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-300">
             From plans to completion, we build your vision — design-and-build
             construction, dependable material supply, hauling, and large-format
-            printing across Maasin, Iloilo and beyond.
+            printing from our base in Maasin, Iloilo, with design and 3D
+            visualization work delivered for clients here and overseas.
           </p>
 
           <div className="mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">

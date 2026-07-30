@@ -20,7 +20,7 @@ import { values, traits, site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Nan Builders & Construction Supply is a Maasin, Iloilo firm delivering design-and-build construction, materials, and printing with quality, reliability, and integrity.",
+    "Nan Builders & Construction Supply is a Maasin, Iloilo firm delivering design-and-build construction, materials, and printing — with design, visualization and BIM work delivered for clients across the Philippines and abroad.",
 };
 
 /** One icon per trait — repeating a single icon four times reads as filler. */
@@ -38,7 +38,7 @@ export default function AboutPage() {
         crumb="About"
         eyebrow="About Us"
         title="Building your vision, from plans to completion"
-        description="Nan Builders & Construction Supply brings design, construction, materials, and printing together under one trusted, locally rooted team."
+        description="Nan Builders & Construction Supply brings design, construction, materials, and printing together under one trusted team — locally rooted, with design work delivered well past the province line."
       />
 
       {/* Story + mission */}
@@ -46,8 +46,8 @@ export default function AboutPage() {
         <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-start">
           <SectionHeading
             eyebrow="Who We Are"
-            title="A complete construction partner in Iloilo"
-            description="Based on Delgado St. in Maasin, Iloilo, we serve homeowners, contractors, and businesses who want one dependable partner for the whole journey — designing the plan, building the structure, supplying the materials, and even printing the blueprints."
+            title="Rooted in Iloilo, working well beyond it"
+            description="From Delgado St. in Maasin, we serve homeowners, contractors, and businesses who want one dependable partner for the whole journey — designing the plan, building the structure, supplying the materials, and even printing the blueprints. Our design and BIM work reaches further still, from residences in Negros to coordinated services models on towers in Bangkok and interiors in Saudi Arabia."
           />
           <Reveal delay={0.1} className="space-y-6">
             <div className="rounded-xl border border-border bg-brand-stone p-6">

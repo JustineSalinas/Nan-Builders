@@ -19,8 +19,14 @@ export const site = {
   legalName: "Nan Builders & Construction Supply",
   tagline: "From plans to completion, we build your vision.",
   motto: "We Supply. We Build. We Deliver.",
+  /**
+   * Reach is deliberately split. Materials, hauling and printing are physical
+   * and local; design, visualization and BIM are not, and have shipped to
+   * clients in Negros, Saudi Arabia and Thailand. Copy should never imply we
+   * haul sand overseas, or that the design arm stops at the provincial line.
+   */
   description:
-    "Nan Builders & Construction Supply — design-and-build construction, quality construction materials, hauling, and large-format printing in Maasin, Iloilo.",
+    "Nan Builders & Construction Supply — design-and-build construction, materials, hauling and large-format printing based in Maasin, Iloilo, with design, 3D visualization and BIM delivered for clients nationwide and overseas.",
   url: resolvedUrl,
   brandBlue: "#002CB9", // exact colour sampled from the owner's logo artwork
   registrationNo: "2RC0001174040",
