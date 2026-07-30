@@ -1,9 +1,33 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { submissionSchema } from "@/lib/validation";
 import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
+
+/**
+ * Delivery goes over plain SMTP rather than a provider SDK so the mail host is
+ * an environment concern, not a code one: Gmail works today with an App
+ * Password and no domain, and swapping to Resend, Brevo or anything else once
+ * the domain lands is an env-var change with no edit here.
+ *
+ * Port 465 is implicit TLS; everything else (587, 25) starts plaintext and
+ * upgrades via STARTTLS, which is what `secure: false` means to nodemailer.
+ */
+function getTransport() {
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  if (!host || !user || !pass) return null;
+
+  const port = Number(process.env.SMTP_PORT ?? 587);
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  });
+}
 
 function escapeHtml(input: string) {
   return input
@@ -36,8 +60,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.CONTACT_FROM || "Nan Builders <onboarding@resend.dev>";
+  const transport = getTransport();
+  // Most hosts reject a From they don't own, so it defaults to the authenticated
+  // mailbox. The enquirer goes in Reply-To, which is what you actually hit reply on.
+  const from = process.env.CONTACT_FROM || process.env.SMTP_USER || "";
+  const to = process.env.CONTACT_TO || site.email;
 
   const isCareers = data.type === "careers";
   const subject = isCareers
@@ -73,8 +100,8 @@ export async function POST(request: Request) {
     </div>`;
 
   // Graceful fallback when email isn't configured yet.
-  if (!apiKey) {
-    console.warn("[contact] RESEND_API_KEY not set — submission not emailed:", {
+  if (!transport) {
+    console.warn("[contact] SMTP not configured — submission not emailed:", {
       type: data.type,
       name: data.name,
     });
@@ -86,21 +113,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send({
+    await transport.sendMail({
       from,
-      to: site.email,
+      to,
       replyTo: data.email,
       subject,
       html,
     });
-    if (error) {
-      console.error("[contact] Resend error:", error);
-      return NextResponse.json(
-        { ok: false, error: "We couldn't send your message. Please try again or call us." },
-        { status: 502 }
-      );
-    }
     return NextResponse.json({ ok: true, delivered: true });
   } catch (err) {
     console.error("[contact] send failed:", err);
