@@ -41,6 +41,7 @@ function ProjectCard({
           }`}
           fit={fit}
           priority={priority}
+          zoomOnHover={fit === "cover"}
           ratio="aspect-[4/3]"
           className={fit === "contain" ? "bg-white" : undefined}
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
@@ -81,7 +82,7 @@ export default function ProjectsPage() {
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visualizationProjects.map((p, i) => (
-              <Reveal key={p.image} delay={(i % 3) * 0.06}>
+              <Reveal key={p.image} delay={(i % 3) * 0.06} scale>
                 <ProjectCard project={p} priority={i < 3} />
               </Reveal>
             ))}
@@ -99,7 +100,7 @@ export default function ProjectsPage() {
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {technicalProjects.map((p, i) => (
-              <Reveal key={p.image} delay={(i % 3) * 0.06}>
+              <Reveal key={p.image} delay={(i % 3) * 0.06} scale>
                 <ProjectCard project={p} fit="contain" />
               </Reveal>
             ))}

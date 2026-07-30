@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import { RiseText } from "@/components/rise-text";
 
 /** Compact hero for interior pages: deep navy band, eyebrow, serif title, breadcrumb. */
 export function PageHero({
@@ -40,9 +41,13 @@ export function PageHero({
             <span className="text-brand-gold-200">{crumb}</span>
           </nav>
           {eyebrow && <span className="eyebrow eyebrow-on-dark mt-6">{eyebrow}</span>}
-          <h1 className="mt-4 max-w-3xl text-4xl font-medium leading-[1.08] text-white sm:text-5xl">
-            {title}
-          </h1>
+        </Reveal>
+        {/* Outside the Reveal above so the mask rise isn't competing with a
+            slide on its own parent. */}
+        <h1 className="mt-4 max-w-3xl text-4xl font-medium leading-[1.08] text-white sm:text-5xl">
+          <RiseText delay={0.1}>{title}</RiseText>
+        </h1>
+        <Reveal delay={0.26}>
           <span className="accent-rule mt-7" />
           {description && (
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-slate-300">

@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Toaster } from "@/components/ui/sonner";
+import { MotionProvider } from "@/components/motion-provider";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -105,13 +106,26 @@ export default function RootLayout({
       className={`${inter.variable} ${fraunces.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-background">
+        {/*
+          Motion server-renders its `initial` state as inline style, so every
+          revealed block ships as opacity:0 and every masked heading as
+          translateY(115%). If the JS never arrives — blocked, failed, still in
+          flight — the page renders as a blank shell with the text technically
+          present but invisible. This resets those two inline states for that
+          case only, so a script-less visitor gets the whole page, unanimated.
+        */}
+        <noscript>
+          <style>{`[style*="opacity:0"],[style*="translateY"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <MotionProvider>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </MotionProvider>
         <Toaster richColors position="top-center" />
       </body>
     </html>

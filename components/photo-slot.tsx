@@ -19,6 +19,7 @@ export function PhotoSlot({
   blurDataURL,
   fit = "cover",
   sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
+  zoomOnHover = false,
 }: {
   src?: string;
   alt: string;
@@ -32,6 +33,12 @@ export function PhotoSlot({
   /** `contain` for drawings and models, which must not be cropped. */
   fit?: "cover" | "contain";
   sizes?: string;
+  /**
+   * Slow zoom while an ancestor marked `group` is hovered. Deliberately opt-in:
+   * it only makes sense where the whole card is a link, and it's wrong for
+   * `contain` drawings, where scaling just shrinks the white margin.
+   */
+  zoomOnHover?: boolean;
 }) {
   return (
     <div
@@ -49,7 +56,13 @@ export function PhotoSlot({
           priority={priority}
           sizes={sizes}
           {...(blurDataURL ? { placeholder: "blur" as const, blurDataURL } : {})}
-          className={fit === "contain" ? "object-contain" : "object-cover"}
+          className={cn(
+            fit === "contain" ? "object-contain" : "object-cover",
+            // Long and eased — a fast zoom reads as a jump, not as craft. The
+            // reduced-motion block in globals.css collapses this transition.
+            zoomOnHover &&
+              "transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+          )}
         />
       ) : (
         <>

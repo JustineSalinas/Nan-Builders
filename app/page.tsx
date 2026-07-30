@@ -70,7 +70,7 @@ export default function HomePage() {
             {featuredProjects.map((p, i) => {
               const img = imageFor(p);
               return (
-                <Reveal key={p.image} delay={i * 0.08}>
+                <Reveal key={p.image} delay={i * 0.08} scale>
                   <Link
                     href="/projects"
                     className="group block overflow-hidden rounded-2xl border border-border bg-white transition-colors hover:border-brand-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
@@ -80,6 +80,7 @@ export default function HomePage() {
                       blurDataURL={img.blurDataURL}
                       alt={`${p.discipline} — ${p.title}, ${p.location}`}
                       ratio="aspect-[4/3]"
+                      zoomOnHover
                     />
                     <div className="p-5">
                       <h3 className="font-heading text-lg font-medium text-brand-navy">
