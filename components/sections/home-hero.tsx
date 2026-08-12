@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Phone, ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button-link";
 import { site } from "@/lib/site";
@@ -31,28 +30,6 @@ const pillars = [
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-brand-navy-900 text-white">
-      {/*
-        Our own mid-rise render carries the hero. It sits under a navy scrim
-        deep enough for white text — the photograph is atmosphere, not the
-        message, and the sky behind the headline is the bright part that sets
-        how heavy the top of that gradient has to be. `object-[center_45%]`
-        keeps the tower in frame when the band crops down on short viewports.
-      */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <Image
-          src="/hero/mid-rise-residence.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          placeholder="blur"
-          blurDataURL="data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACQAQCdASoQAAkABUB8JYgC7ABf3oAA/kX7UnS7Uoc5uMsAdDVdlojH4CgM9r3XgSPoOhzBpJ9nDAAA"
-          className="object-cover object-[center_45%]"
-        />
-        <div className="absolute inset-0 bg-brand-navy-900/55" />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-navy-900/60 via-brand-navy-900/35 to-brand-navy-900/92" />
-      </div>
-
       <div className="container-x relative py-24 text-center md:py-32">
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <span className="inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.03] px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-gold-200">
