@@ -73,12 +73,14 @@ export default function HomePage() {
                 <Reveal key={p.image} delay={i * 0.08} scale>
                   <Link
                     href="/projects"
-                    className="group block overflow-hidden rounded-2xl border border-border bg-white transition-colors hover:border-brand-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
+                    className="group block h-full overflow-hidden rounded-2xl border border-border bg-white transition-colors hover:border-brand-blue/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
                   >
                     <PhotoSlot
                       src={img.src}
                       blurDataURL={img.blurDataURL}
-                      alt={`${p.discipline} — ${p.title}, ${p.location}`}
+                      alt={`${p.discipline} — ${p.title}${
+                        p.location ? `, ${p.location}` : ""
+                      }`}
                       ratio="aspect-[4/3]"
                       zoomOnHover
                     />
@@ -86,9 +88,11 @@ export default function HomePage() {
                       <h3 className="font-heading text-lg font-medium text-brand-navy">
                         {p.title}
                       </h3>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {p.location}
-                      </p>
+                      {p.location && (
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {p.location}
+                        </p>
+                      )}
                     </div>
                   </Link>
                 </Reveal>

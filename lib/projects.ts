@@ -22,6 +22,55 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    image: "csa-complex-exterior",
+    title: "CSA Complex",
+    location: "",
+    discipline: "Exterior perspective",
+    group: "visualization",
+  },
+  {
+    image: "csa-hotel-lobby",
+    title: "CSA Hotel lobby",
+    location: "",
+    discipline: "Interior perspective",
+    group: "visualization",
+  },
+  {
+    image: "csa-hotel-reception",
+    title: "CSA Hotel reception",
+    location: "",
+    discipline: "Interior perspective",
+    group: "visualization",
+  },
+  {
+    image: "csa-hotel-lounge",
+    title: "CSA Hotel lounge",
+    location: "",
+    discipline: "Interior perspective",
+    group: "visualization",
+  },
+  {
+    image: "mid-rise-residential-tower",
+    title: "Mid-rise residential building",
+    location: "",
+    discipline: "Exterior perspective",
+    group: "visualization",
+  },
+  {
+    image: "unit-kitchen-dining",
+    title: "Typical unit kitchen and dining",
+    location: "",
+    discipline: "Interior perspective",
+    group: "visualization",
+  },
+  {
+    image: "unit-bedroom",
+    title: "Typical unit bedroom",
+    location: "",
+    discipline: "Interior perspective",
+    group: "visualization",
+  },
+  {
     image: "bungalow-himamaylan",
     title: "One-storey residence",
     location: "Himamaylan City",
@@ -138,9 +187,12 @@ export const visualizationProjects = projects.filter(
 );
 export const technicalProjects = projects.filter((p) => p.group === "technical");
 
-/** The three renders that lead the home page. */
+/**
+ * The three renders that lead the home page — one house, one commercial fit-out,
+ * one large mixed-use scheme, so the range reads at a glance.
+ */
 export const featuredProjects = [
   projects.find((p) => p.image === "bungalow-himamaylan")!,
   projects.find((p) => p.image === "zatazza-cafe-jaro")!,
-  projects.find((p) => p.image === "grand-lobby-interior")!,
+  projects.find((p) => p.image === "csa-complex-exterior")!,
 ];
