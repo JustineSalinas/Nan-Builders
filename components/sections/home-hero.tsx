@@ -34,7 +34,7 @@ export function HomeHero() {
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <span className="inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.03] px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-gold-200">
             <MapPin className="h-3.5 w-3.5 shrink-0" />
-            {site.address.province} & overseas
+            {site.address.province}, {site.address.country} · International
           </span>
 
           <h1 className="mt-8 text-balance text-5xl font-medium leading-[1.04] tracking-[-0.02em] sm:text-6xl lg:text-[4.25rem]">
