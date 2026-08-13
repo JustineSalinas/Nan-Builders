@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Toaster } from "@/components/ui/sonner";
 import { MotionProvider } from "@/components/motion-provider";
+import { ChatWidget } from "@/components/chat-widget";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -126,6 +127,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </MotionProvider>
+        <ChatWidget />
         <Toaster richColors position="top-center" />
       </body>
     </html>

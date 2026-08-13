@@ -130,10 +130,21 @@ export function SiteFooter() {
           <h3 className="mt-8 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-white/90">
             Opening Hours
           </h3>
-          <dl className="mt-4 space-y-1.5 text-sm">
+          {/*
+            "Monday – Friday" and "8:00 AM – 6:00 PM" only just fit the column
+            side by side, so at text-sm the day broke after its en dash and left
+            the rows ragged. A notch smaller buys the headroom to keep every row
+            on one line; nowrap stops either half splitting mid-phrase, and
+            flex-wrap drops the time to its own line rather than overflowing if
+            it ever runs out of room anyway.
+          */}
+          <dl className="mt-4 space-y-1.5 text-[0.8125rem]">
             {site.hours.map((h) => (
-              <div key={h.day} className="flex justify-between gap-4">
-                <dt className="text-slate-400">{h.day}</dt>
+              <div
+                key={h.day}
+                className="flex flex-wrap justify-between gap-x-3 gap-y-0.5"
+              >
+                <dt className="whitespace-nowrap text-slate-400">{h.day}</dt>
                 <dd className="whitespace-nowrap text-slate-300">{h.time}</dd>
               </div>
             ))}

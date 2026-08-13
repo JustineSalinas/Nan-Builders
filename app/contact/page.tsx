@@ -127,7 +127,13 @@ export default async function ContactPage({
       </section>
 
       {/* Location */}
-      <section className="bg-brand-stone pb-16">
+      {/*
+        Padded top and bottom. With pb only, the card's top edge landed exactly
+        on the seam where the white section above meets the stone band, so the
+        rounded corners had nothing to sit against and the map read as though it
+        had slipped out of the layout.
+      */}
+      <section className="bg-brand-stone py-16">
         <div className="container-x">
           <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
             <iframe

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button-link";
 import { site } from "@/lib/site";
@@ -30,11 +31,40 @@ const pillars = [
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-brand-navy-900 text-white">
+      {/*
+        A site at dusk, under a navy scrim deep enough for white text. The
+        photograph is atmosphere, not a claim — our own work is on /projects.
+        The focal point sits left of centre and low, on the cranes: a phone
+        crops this 16:9 frame to a narrow vertical slice, and centred it lands
+        on empty sky.
+      */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <Image
+          src="/hero/construction-site-dusk.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          placeholder="blur"
+          blurDataURL="data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAADwAQCdASoQAAkABUB8JbACdAEPcsu4v0AA/Nj/nCfZ5ncr3NhDCWREIe5JpXwVYZrj9IhcKWwAAA=="
+          className="object-cover object-[32%_62%]"
+        />
+        <div className="absolute inset-0 bg-brand-navy-900/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-navy-900/60 via-brand-navy-900/35 to-brand-navy-900/92" />
+      </div>
+
       <div className="container-x relative py-24 text-center md:py-32">
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <span className="inline-flex items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.03] px-4 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-brand-gold-200">
             <MapPin className="h-3.5 w-3.5 shrink-0" />
-            {site.address.province}, {site.address.country} · International
+            {/*
+              Keep this as plain text. The badge is an inline-flex row that
+              never wraps, so wrapping any of these words in an element makes it
+              a flex item of its own and pushes the badge off the side of a
+              phone screen; as text it stays one wrappable item and breaks after
+              the comma.
+            */}
+            {`Projects from ${site.address.province}, ${site.address.country} to international`}
           </span>
 
           <h1 className="mt-8 text-balance text-5xl font-medium leading-[1.04] tracking-[-0.02em] sm:text-6xl lg:text-[4.25rem]">
