@@ -76,11 +76,22 @@ export const allNav = [
 ] as const;
 
 /**
- * Desktop header nav — trimmed to six so the bar stays calm.
- * Printing, Insights and Careers are reachable from the footer, the mobile
- * menu, and (for Printing) the Services page.
+ * Desktop header nav — four items, deliberately.
+ *
+ * Home and Contact are dropped rather than lost. The logo is the Home link, and
+ * the bar already carries the phone number and a Get a Quote button pointing at
+ * /contact — a text link would be the third route to the same page in one bar,
+ * and the quieter of the three.
+ *
+ * Supply keeps its slot even though it looks like a service: materials, hauling
+ * and delivery are a separate business line from contracting, and the
+ * highest-intent local searches ("hollowblocks", "sand and gravel delivery")
+ * want that page rather than a section partway down Services.
+ *
+ * Nothing here is the only way to reach a page. The footer lists all of allNav,
+ * and so does the mobile menu.
  */
-const headerNavHrefs = ["/", "/services", "/projects", "/supply", "/about", "/contact"];
+const headerNavHrefs = ["/services", "/projects", "/supply", "/about"];
 export const mainNav = allNav.filter((item) => headerNavHrefs.includes(item.href));
 
 export const values = [
