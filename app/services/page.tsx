@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
+import { heroPhotos } from "@/lib/hero-photos";
 import { CtaBand } from "@/components/sections/cta-band";
 import { Reveal } from "@/components/reveal";
 import { services } from "@/lib/services";
@@ -41,6 +42,7 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
+        photo={heroPhotos.services}
         crumb="Services"
         eyebrow="What We Do"
         title="Complete solutions for your construction needs"
