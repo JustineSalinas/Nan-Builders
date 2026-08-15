@@ -24,6 +24,7 @@ export default function SupplyPage() {
   return (
     <>
       <PageHero
+        motif="masonry"
         crumb="Supply"
         eyebrow="Construction Supply"
         title="We supply. We deliver."

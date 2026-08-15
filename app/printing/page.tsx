@@ -20,6 +20,7 @@ export default function PrintingPage() {
   return (
     <>
       <PageHero
+        motif="sheet"
         crumb="Printing"
         eyebrow="Printing Services"
         title="We print. We build. We deliver."

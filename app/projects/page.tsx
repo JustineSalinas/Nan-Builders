@@ -66,6 +66,7 @@ export default function ProjectsPage() {
   return (
     <>
       <PageHero
+        motif="plan"
         crumb="Projects"
         eyebrow="Portfolio"
         title="Complete solutions, delivered"

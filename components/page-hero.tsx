@@ -1,7 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { RiseText } from "@/components/rise-text";
+import { PageHeroMotif, type HeroMotif } from "@/components/page-hero-motif";
+import type { HeroPhoto } from "@/lib/hero-photos";
 
 /** Compact hero for interior pages: deep navy band, eyebrow, serif title, breadcrumb. */
 export function PageHero({
@@ -9,11 +12,17 @@ export function PageHero({
   title,
   description,
   crumb,
+  motif = "grid",
+  photo,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   crumb: string;
+  /** Backdrop drawing. Defaults to the blueprint grid every page used to share. */
+  motif?: HeroMotif;
+  /** A photograph instead of a drawing. Takes precedence over `motif`. */
+  photo?: HeroPhoto;
 }) {
   return (
     <section className="relative overflow-hidden bg-brand-navy-900 text-white">
@@ -22,18 +31,36 @@ export function PageHero({
         aria-hidden
         className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl"
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-        }}
-      />
+      {photo ? (
+        // Same scrim as the home hero: a flat tint plus a gradient that goes
+        // deepest at top and foot, where the breadcrumb and the description
+        // sit. The photograph is atmosphere; the words are the message.
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <Image
+            src={photo.src}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            placeholder="blur"
+            blurDataURL={photo.blurDataURL}
+            className="object-cover"
+            style={{ objectPosition: photo.position }}
+          />
+          <div className="absolute inset-0 bg-brand-navy-900/58" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-navy-900/70 via-brand-navy-900/35 to-brand-navy-900/88" />
+        </div>
+      ) : (
+        <PageHeroMotif variant={motif} />
+      )}
       <div className="container-x relative py-20 md:py-24">
         <Reveal>
-          <nav className="flex items-center gap-1.5 text-xs font-medium text-white/50">
+          {/*
+            white/50 was fine on flat navy but drops to 3.6:1 over a
+            photograph, and this is 12px text. /70 clears 4.5:1 on both, so the
+            breadcrumb doesn't need to know which backdrop it landed on.
+          */}
+          <nav className="flex items-center gap-1.5 text-xs font-medium text-white/70">
             <Link href="/" className="transition-colors hover:text-white">
               Home
             </Link>
