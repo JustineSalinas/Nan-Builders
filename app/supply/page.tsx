@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Truck, PackageCheck, Ruler, PhilippinePeso } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
+import { BlockCalculator } from "@/components/block-calculator";
 import { CtaBand } from "@/components/sections/cta-band";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink } from "@/components/ui/button-link";
@@ -76,6 +77,16 @@ export default function SupplyPage() {
             ))}
           </div>
           {/* TODO: add real product photos and any fixed price lists when available */}
+
+          {/*
+            Sits under the catalogue on purpose: someone reading what we stock
+            is one step from working out how much of it they need.
+          */}
+          <div className="mt-14">
+            <Reveal>
+              <BlockCalculator />
+            </Reveal>
+          </div>
         </div>
       </section>
 
