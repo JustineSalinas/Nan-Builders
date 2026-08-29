@@ -389,3 +389,19 @@ export function retrieve(query: string): Retrieval {
       .map((candidate) => candidate.entry),
   };
 }
+
+/**
+ * The best entries for a query regardless of the confidence gate, for use as
+ * grounding context when a model is doing the talking.
+ *
+ * `retrieve` deliberately refuses to answer from a weak match — the right call
+ * when its pick *is* the answer. Here the model gets to read several entries
+ * and decide, so a near-miss is cheap and a missing entry is expensive: it's
+ * better to hand over the runner-up and let the model say it doesn't cover the
+ * question than to hand over nothing.
+ */
+export function topMatches(query: string, limit = 4): KnowledgeEntry[] {
+  const { match, related } = retrieve(query);
+  const ordered = match ? [match, ...related] : related;
+  return ordered.slice(0, limit);
+}

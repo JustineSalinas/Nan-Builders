@@ -62,6 +62,53 @@ function answerFor(query: string, nextId: number): Message {
   };
 }
 
+type Turn = { role: Message["role"]; text: string };
+
+/**
+ * Ask the grounded route. Returns null whenever it declines — no key, rate
+ * limited, timed out, offline — which the caller reads as "use the local
+ * answer". Nothing here distinguishes the reasons, because nothing downstream
+ * should behave differently: the visitor gets an answer either way.
+ */
+async function askModel(
+  message: string,
+  history: Turn[]
+): Promise<Omit<Message, "id"> | null> {
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, history }),
+    });
+    const data = await response.json();
+    if (!data?.grounded || typeof data.text !== "string") return null;
+    return {
+      role: "bot",
+      text: data.text,
+      link: data.link ?? undefined,
+      suggestions: Array.isArray(data.suggestions) ? data.suggestions : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Resolve `work`, but never sooner than `ms`.
+ *
+ * A local answer returns in under a millisecond, which reads as canned rather
+ * than considered. The floor keeps the rhythm the same whether the reply came
+ * from the model or the file — and it runs alongside the work, so a slow model
+ * isn't made slower.
+ */
+async function notBefore<T>(work: Promise<T>, ms: number): Promise<T> {
+  const [value] = await Promise.all([
+    work,
+    new Promise((resolve) => setTimeout(resolve, ms)),
+  ]);
+  return value;
+}
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([GREETING]);
@@ -98,24 +145,36 @@ export function ChatWidget() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  function ask(query: string) {
+  /**
+   * Ask the grounded model first, fall back to plain retrieval.
+   *
+   * The fallback isn't an error path, it's the floor: no API key configured, no
+   * network, quota gone, model slow — the visitor still gets the answer we
+   * wrote, and never sees a failure. `/api/chat` is built to decline quickly
+   * rather than hang, which is why there's no state here beyond typing dots.
+   */
+  async function ask(query: string) {
     const trimmed = query.trim();
     if (!trimmed || pending) return;
 
-    const userMessage: Message = {
-      id: nextId.current++,
-      role: "user",
-      text: trimmed,
-    };
-    setMessages((current) => [...current, userMessage]);
+    const history = messages
+      .filter((m) => m.id !== GREETING.id)
+      .map((m) => ({ role: m.role, text: m.text }));
+
+    setMessages((current) => [
+      ...current,
+      { id: nextId.current++, role: "user", text: trimmed },
+    ]);
     setDraft("");
     setPending(true);
 
-    const reply = answerFor(trimmed, nextId.current++);
-    window.setTimeout(() => {
-      setMessages((current) => [...current, reply]);
-      setPending(false);
-    }, REPLY_DELAY_MS);
+    const grounded = await notBefore(askModel(trimmed, history), REPLY_DELAY_MS);
+    const reply: Message = grounded
+      ? { id: nextId.current++, ...grounded }
+      : answerFor(trimmed, nextId.current++);
+
+    setMessages((current) => [...current, reply]);
+    setPending(false);
   }
 
   return (
