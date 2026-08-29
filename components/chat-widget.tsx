@@ -38,6 +38,12 @@ const GREETING: Message = {
 /** Long enough to read as a reply rather than a lookup, short enough to not annoy. */
 const REPLY_DELAY_MS = 320;
 
+/** Long enough that the nudge doesn't land while the page is still arriving. */
+const NUDGE_DELAY_MS = 2600;
+const NUDGE_KEY = "nb:chat-nudge-dismissed";
+/** Past the hero, so the card never covers its Get a Quote and Call buttons. */
+const NUDGE_AFTER_PX = 520;
+
 function answerFor(query: string, nextId: number): Message {
   const { match, related } = retrieve(query);
   const suggestions = related.map((entry) => entry.question);
@@ -115,6 +121,8 @@ export function ChatWidget() {
   const [draft, setDraft] = useState("");
   const [pending, setPending] = useState(false);
 
+  const [nudge, setNudge] = useState(false);
+
   const panelId = useId();
   const launcherRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -130,6 +138,66 @@ export function ChatWidget() {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  /**
+   * Show the nudge once the visitor has had a moment to look at the page.
+   *
+   * Session storage, not local: it should stay out of the way for this visit,
+   * but someone returning next week is a new conversation. Access is wrapped
+   * because private windows and blocked site data make it throw rather than
+   * return null.
+   */
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(NUDGE_KEY)) return;
+    } catch {
+      // Storage unavailable — show it, just don't remember the dismissal.
+    }
+
+    // Wait for both a beat and some scrolling. On a phone the card lands right
+    // where the hero's own Get a Quote and Call buttons are, so appearing on
+    // arrival would cover the two things we most want tapped. Past the hero
+    // there's nothing underneath it, and a visitor who has scrolled is one
+    // who's actually looking for something.
+    let elapsed = false;
+    let scrolled = false;
+    const reveal = () => {
+      if (elapsed && scrolled) setNudge(true);
+    };
+
+    const timer = setTimeout(() => {
+      elapsed = true;
+      reveal();
+    }, NUDGE_DELAY_MS);
+
+    function onScroll() {
+      if (window.scrollY <= NUDGE_AFTER_PX) return;
+      scrolled = true;
+      reveal();
+      window.removeEventListener("scroll", onScroll);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // Opening the chat answers the question the nudge was asking.
+  useEffect(() => {
+    if (open) dismissNudge();
+  }, [open]);
+
+  function dismissNudge() {
+    setNudge(false);
+    try {
+      sessionStorage.setItem(NUDGE_KEY, "1");
+    } catch {
+      // Nothing to do; it simply won't be remembered.
+    }
+  }
 
   // Escape closes from anywhere inside the panel, and focus goes back to the
   // launcher so keyboard users aren't dropped at the top of the document.
@@ -179,6 +247,48 @@ export function ChatWidget() {
 
   return (
     <>
+      {/*
+        A nudge, because an unlabelled circle in the corner is easy to read as
+        decoration. It waits for the visitor to settle, dismisses for the rest
+        of the session once closed, and never reappears after the chat has been
+        opened — a prompt that keeps asking is an irritation, not an invitation.
+      */}
+      {nudge && !open && (
+        <div className="fixed bottom-[10rem] right-5 z-50 w-[15.5rem] md:bottom-[5.25rem]">
+          <div className="relative rounded-2xl border border-border bg-white p-4 shadow-xl">
+            <button
+              type="button"
+              onClick={dismissNudge}
+              className="absolute right-2 top-2 rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
+            >
+              <X className="h-3.5 w-3.5" />
+              <span className="sr-only">Dismiss</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                dismissNudge();
+                setOpen(true);
+              }}
+              className="block w-full pr-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
+            >
+              <p className="font-heading text-base font-medium text-brand-navy">
+                Any inquiries?
+              </p>
+              <p className="mt-1 text-sm leading-snug text-muted-foreground">
+                Ask about prices, materials or getting a quote — answered right
+                here.
+              </p>
+            </button>
+          </div>
+          {/* Points at the launcher below it. */}
+          <div
+            aria-hidden
+            className="absolute -bottom-1.5 right-7 h-3 w-3 rotate-45 border-b border-r border-border bg-white"
+          />
+        </div>
+      )}
+
       <button
         ref={launcherRef}
         type="button"
@@ -186,7 +296,8 @@ export function ChatWidget() {
         aria-expanded={open}
         aria-controls={panelId}
         className={cn(
-          "fixed bottom-5 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full",
+          // Sits above the mobile call bar on phones, back down on desktop.
+          "fixed bottom-24 right-5 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full md:bottom-5",
           "bg-brand-navy text-white shadow-lg shadow-brand-navy/25 transition-all duration-300",
           "hover:bg-brand-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2",
           open && "scale-90 opacity-0 pointer-events-none"
@@ -202,8 +313,8 @@ export function ChatWidget() {
           role="dialog"
           aria-label={`Ask ${site.name}`}
           className={cn(
-            "fixed bottom-5 right-5 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-2xl",
-            "w-[min(23rem,calc(100vw-2.5rem))] h-[min(34rem,calc(100vh-2.5rem))]"
+            "fixed bottom-24 right-5 z-50 flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-2xl md:bottom-5",
+            "w-[min(23rem,calc(100vw-2.5rem))] h-[min(34rem,calc(100vh-8.5rem))] md:h-[min(34rem,calc(100vh-2.5rem))]"
           )}
         >
           <header className="flex items-start justify-between gap-3 bg-brand-navy-900 px-5 py-4 text-white">

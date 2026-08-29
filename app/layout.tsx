@@ -6,6 +6,8 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { Toaster } from "@/components/ui/sonner";
 import { MotionProvider } from "@/components/motion-provider";
 import { ChatWidget } from "@/components/chat-widget";
+import { MobileCallBar } from "@/components/mobile-call-bar";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -122,11 +124,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <SmoothScroll />
         <MotionProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
         </MotionProvider>
+        <MobileCallBar />
         <ChatWidget />
         <Toaster richColors position="top-center" />
       </body>
