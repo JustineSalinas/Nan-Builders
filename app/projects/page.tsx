@@ -4,9 +4,7 @@ import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import { CtaBand } from "@/components/sections/cta-band";
 import { EmptyState } from "@/components/empty-state";
-import { Reveal } from "@/components/reveal";
-import { Badge } from "@/components/ui/badge";
-import { PhotoSlot } from "@/components/photo-slot";
+import { ProjectGallery, type GalleryItem } from "@/components/project-gallery";
 import {
   imageFor,
   technicalProjects,
@@ -20,46 +18,26 @@ export const metadata: Metadata = {
     "Perspectives, 3D renders, BIM coordination and shop drawings delivered by Nan Builders for projects across Iloilo, the Philippines and abroad.",
 };
 
-function ProjectCard({
-  project,
-  fit = "cover",
-  priority = false,
-}: {
-  project: Project;
-  fit?: "cover" | "contain";
-  priority?: boolean;
-}) {
-  const img = imageFor(project);
-  return (
-    <article className="group h-full overflow-hidden rounded-2xl border border-border bg-white transition-colors hover:border-brand-blue/30">
-      <div className="relative">
-        <PhotoSlot
-          src={img.src}
-          blurDataURL={img.blurDataURL}
-          alt={`${project.discipline} — ${project.title}${
-            project.location ? `, ${project.location}` : ""
-          }`}
-          fit={fit}
-          priority={priority}
-          zoomOnHover={fit === "cover"}
-          ratio="aspect-[4/3]"
-          className={fit === "contain" ? "bg-white" : undefined}
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-        />
-        <Badge className="absolute left-3 top-3 bg-brand-navy text-white hover:bg-brand-navy">
-          {project.discipline}
-        </Badge>
-      </div>
-      <div className="p-5">
-        <h3 className="font-heading text-xl font-medium leading-snug text-brand-navy">
-          {project.title}
-        </h3>
-        {project.location && (
-          <p className="mt-1 text-sm text-muted-foreground">{project.location}</p>
-        )}
-      </div>
-    </article>
-  );
+/**
+ * Flatten a project into something the client gallery can take. The image
+ * lookup stays here, on the server, so the whole manifest isn't shipped to the
+ * browser just to render eleven cards.
+ */
+function toGalleryItems(projects: Project[], fit: "cover" | "contain"): GalleryItem[] {
+  return projects.map((project) => {
+    const image = imageFor(project);
+    return {
+      id: project.image,
+      title: project.title,
+      location: project.location,
+      discipline: project.discipline,
+      src: image.src,
+      width: image.width,
+      height: image.height,
+      blurDataURL: image.blurDataURL,
+      fit,
+    };
+  });
 }
 
 export default function ProjectsPage() {
@@ -81,13 +59,7 @@ export default function ProjectsPage() {
             description="Every project starts as a perspective. These are renders and interior studies produced in-house for clients here and overseas."
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visualizationProjects.map((p, i) => (
-              <Reveal key={p.image} delay={(i % 3) * 0.06} scale>
-                <ProjectCard project={p} priority={i < 3} />
-              </Reveal>
-            ))}
-          </div>
+          <ProjectGallery items={toGalleryItems(visualizationProjects, "cover")} />
         </div>
       </section>
 
@@ -99,13 +71,7 @@ export default function ProjectsPage() {
             description="Architectural, structural and MEP modelling, clash coordination and shop-drawing packages delivered as part of wider project teams — including the Mahanakhon tower in Bangkok."
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {technicalProjects.map((p, i) => (
-              <Reveal key={p.image} delay={(i % 3) * 0.06} scale>
-                <ProjectCard project={p} fit="contain" />
-              </Reveal>
-            ))}
-          </div>
+          <ProjectGallery items={toGalleryItems(technicalProjects, "contain")} />
 
           <div className="mt-12">
             <EmptyState
